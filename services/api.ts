@@ -31,7 +31,7 @@ export async function identifyGarbage(image_url: string): Promise<void> {
                     {
                         type: "image_url",
                         image_url: {
-                            url: "https://2.bp.blogspot.com/-WFH-CZmDbwM/TfaOpzSkHMI/AAAAAAAAAqo/DAmP1tGxFew/s1600/009.JPG",
+                            url: image_url,
                             detail: "low"
                         }
                     }
