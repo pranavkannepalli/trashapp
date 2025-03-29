@@ -10,8 +10,7 @@ const openai = new OpenAI({
 
 const IdentificationSchema = z.object({
     object: z.string(),
-    type: z.string(),
-    confidence: z.number(),
+    type: z.enum(["Trash", "Recycle", "Compost"]),
 });
 
 
@@ -20,18 +19,36 @@ const ImageIdentificationSchema = z.object({
 });
 
 
-export async function identifyGarbage(image_url: string): Promise<void> {
+function fileToBase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = (error) => reject(error);
+    });
+}
+
+
+export async function identifyGarbage(image: File): Promise<z.infer<typeof ImageIdentificationSchema> | null> {
+    const base64Image = await fileToBase64(image);
+
     const completion = await openai.beta.chat.completions.parse({
         model: "gpt-4o-mini",
         messages: [
             {
+                role: "developer",
+                content: "You are an AI garbage classifier. Your job is to detect different " +
+                    "disposable items in an image and identify them and whether they are trash, " +
+                    "recycle, or compost. Make sure to have a single classification for each disposable " +
+                    "object (e.g. Do not classify a water bottle as a water bottle and a soda bottle)."
+            },
+            {
                 role: "user",
                 content: [
-                    { type: "text", text: "Can you identify what type of garbages are in this image, what type of disposing their are, and your confidence in this reading?" },
                     {
                         type: "image_url",
                         image_url: {
-                            url: image_url,
+                            url: `data:image/jpeg;base64,${base64Image}`,
                             detail: "low"
                         }
                     }
@@ -42,5 +59,5 @@ export async function identifyGarbage(image_url: string): Promise<void> {
     });
 
 
-    console.log(completion.choices[0].message.parsed);
+    return completion.choices[0].message.parsed;
 }
