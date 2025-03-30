@@ -16,6 +16,7 @@
     "preset": "jest-expo"
   },
   "dependencies": {
+    "@expo-google-fonts/raleway": "^0.2.3",
     "@expo/vector-icons": "^14.0.2",
     "@react-navigation/bottom-tabs": "^7.2.0",
     "@react-navigation/native": "^7.0.14",
@@ -35,6 +36,7 @@
     "expo-updates": "~0.27.4",
     "expo-web-browser": "~14.0.2",
     "firebase": "^11.5.0",
+    "phosphor-react-native": "^2.3.1",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-native": "0.76.7",

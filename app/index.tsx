@@ -1,6 +1,11 @@
+import { Raleway_400Regular, useFonts } from "@expo-google-fonts/raleway";
 import { Text, View } from "react-native";
 
 export default function Index() {
+  let [fontLoaded] = useFonts({
+    Raleway_400Regular
+  });
+
   return (
     <View
       style={{
@@ -16,7 +21,7 @@ export default function Index() {
         }}
       >
         <View>
-          <Text style={{ fontSize: 16 }} >Welcome,</Text>
+          <Text style={{ fontSize: 16, fontFamily: "Raleway_400Regular" }} >Welcome,</Text>
           <Text style={{ fontSize: 32, fontWeight: "bold" }} >Achintya</Text>
         </View>
       </View>
