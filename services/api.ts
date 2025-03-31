@@ -4,34 +4,27 @@ import { z } from "zod";
 
 
 const openai = new OpenAI({
-    apiKey: process.env.REACT_APP_OPENAI_API_KEY
+    apiKey: process.env.EXPO_PUBLIC_OPENAI_API_KEY
 });
 
 
 const IdentificationSchema = z.object({
     object: z.string(),
     type: z.enum(["Trash", "Recycle", "Compost"]),
+    index: z.string()
 });
 
 
-const ImageIdentificationSchema = z.object({
-    garbage: z.array(IdentificationSchema)
+const GarbageIdentificationSchema = z.object({
+    data: z.array(IdentificationSchema)
 });
 
 
-function fileToBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result as string);
-        reader.onerror = (error) => reject(error);
-    });
-}
+export type GarbageResponseType = z.infer<typeof GarbageIdentificationSchema> | null;
+export type GarbageIdentification = z.infer<typeof IdentificationSchema>;
 
 
-export async function identifyGarbage(image: File): Promise<z.infer<typeof ImageIdentificationSchema> | null> {
-    const base64Image = await fileToBase64(image);
-
+export async function identifyGarbage(base64Image: string): Promise<GarbageResponseType> {
     const completion = await openai.beta.chat.completions.parse({
         model: "gpt-4o-mini",
         messages: [
@@ -48,16 +41,15 @@ export async function identifyGarbage(image: File): Promise<z.infer<typeof Image
                     {
                         type: "image_url",
                         image_url: {
-                            url: `data:image/jpeg;base64,${base64Image}`,
+                            url: base64Image,
                             detail: "low"
                         }
                     }
                 ]
             },
         ],
-        response_format: zodResponseFormat(ImageIdentificationSchema, "garbage")
+        response_format: zodResponseFormat(GarbageIdentificationSchema, "garbage")
     });
-
 
     return completion.choices[0].message.parsed;
 }

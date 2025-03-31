@@ -1,15 +1,157 @@
-import { useState, useRef } from 'react';
-import {Button, Pressable, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
+import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import { Pressable, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator} from 'react-native';
+import { CameraView, useCameraPermissions } from 'expo-camera';
 import { Image } from "expo-image";
 import { useRouter } from 'expo-router';
+import { identifyGarbage, type GarbageResponseType, type GarbageIdentification } from "@/services/api";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet";
+import { CubeFocus } from "phosphor-react-native";
+
+
+interface GarbageItemProps {
+    item: GarbageIdentification;
+}
+
+const GarbageItem = ({ item }: GarbageItemProps) => {
+    const [isHovered, setIsHovered] = useState(false);
+
+    return (
+        <Pressable
+            onPressIn={() => setIsHovered(true)}
+            onPressOut={() => setIsHovered(false)}
+            style={[styles.itemContainer, isHovered && styles.itemContainerHovered]}
+        >
+            <Text style={styles.itemText}>{item.object}</Text>
+            <View style={[{ flex: 1 }]} />
+            <View style={styles.iconContainer}>
+                <Text style={styles.iconText}>{item.type}</Text>
+            </View>
+        </Pressable>
+    );
+};
+
+
+// PictureViewComponent
+interface PictureViewComponentProps {
+    sheetRef: React.Ref<BottomSheet>;
+    garbage: GarbageResponseType;
+    base64: string;
+    setGarbage: (garbage: GarbageResponseType) => void;
+    setBase64: (base64: string | null) => void;
+}
+
+
+const PictureViewComponent = ({ sheetRef, garbage, base64, setGarbage, setBase64 }: PictureViewComponentProps) => {
+    const router = useRouter();
+    const snapPoints = useMemo(() => ["25%", "50%", "90%"], []);
+
+    const renderItem = ({ item }: { item: GarbageIdentification }) => <GarbageItem item={item} />;
+
+    return (
+        <View style={styles.camera}>
+            <Image source={{ uri: base64 }} style={styles.image} />
+            <View style={{ flex: 1, pointerEvents: "box-none" }}>
+                <TouchableOpacity
+                    style={styles.closeBtn}
+                    onPress={() => {
+                        setGarbage(null);
+                        setBase64(null);
+                        router.back();
+                    }}
+                >
+                    <Text style={styles.closeBtnText}>X</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.headerContainer}>
+                <Text style={styles.header}>Identify</Text>
+
+            </View>
+            {!garbage && (
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color="white" />
+                </View>
+            )}
+            {garbage && (
+                <GestureHandlerRootView style={styles.container}>
+                    <BottomSheet
+                        ref={sheetRef}
+                        snapPoints={snapPoints}
+                        enableDynamicSizing={false}
+                    >
+                        <Text style={styles.sheetHeaderText}>Recognized Items</Text>
+                        <BottomSheetFlatList
+                            data={garbage.data}
+                            keyExtractor={(i) => i.index}
+                            renderItem={renderItem}
+                            contentContainerStyle={styles.contentContainer}
+                        />
+                    </BottomSheet>
+                </GestureHandlerRootView>
+            )}
+        </View>
+    );
+}
+
+
+interface CameraViewComponentProps {
+    cameraViewRef: React.Ref<CameraView>;
+    takePicture: () => Promise<void>;
+    base64: string | null;
+}
+
+
+const CameraViewComponent = ({ cameraViewRef, takePicture, base64 }: CameraViewComponentProps) => {
+    const router = useRouter();
+
+    return (
+        <CameraView
+            style={styles.camera}
+            ref={cameraViewRef}
+            facing="back"
+            autofocus="on"
+            flash="auto"
+        >
+            <View>
+                <TouchableOpacity
+                    style={styles.closeBtn}
+                    onPress={() => router.back()}
+                >
+                    <Text style={styles.closeBtnText}>X</Text>
+                </TouchableOpacity>
+            </View>
+            <View style={styles.headerContainer}>
+                <Text style={styles.header}>Identify</Text>
+            </View>
+            <View style={styles.shutterContainer}>
+                <Pressable onPress={takePicture}>
+                    {({ pressed }) => (
+                        <View
+                            style={[
+                                styles.shutterBtn,
+                                {
+                                    opacity: pressed ? 0.5 : 1,
+                                },
+                            ]}
+                        >
+                        </View>
+                    )}
+                </Pressable>
+            </View>
+        </CameraView>
+    );
+}
+
 
 export default function Identify() {
     const [permission, requestPermission] = useCameraPermissions();
-    const ref = useRef<CameraView>(null);
     const [base64, setBase64] = useState<string | null>(null);
-    const router = useRouter();
+    const [garbage, setGarbage] = useState<GarbageResponseType>(null);
 
+    const cameraViewRef = useRef<CameraView>(null);
+    const sheetRef = useRef<BottomSheet>(null);
+
+    /*
     if (!permission) {
         return <View />;
     }
@@ -25,76 +167,40 @@ export default function Identify() {
             </View>
         );
     }
+    */
 
     const takePicture = async () => {
-        const picture = await ref.current?.takePictureAsync({ base64: true });
+        const picture = await cameraViewRef.current?.takePictureAsync({ base64: true });
         if (picture?.base64) {
             setBase64(`data:image/jpeg;base64,${picture.base64}`);
         }
     }
 
-    const pictureView = () => {
-        return (
-            <View style={styles.container}>
-                <Image
-                    style={styles.image}
-                    source={{ uri: base64 }}
-                    contentFit="contain"
-                />
-            </View>
-        );
-    };
+    useEffect(() => {
+        const fetchGarbageData = async () => {
+            if (base64 && !garbage) {
+                const response = await identifyGarbage(base64!);
+                setGarbage(response);
+            }
+        };
+        fetchGarbageData();
+    }, [base64]);
 
-    const cameraView = () => {
-        return (
-            <CameraView
-                style={styles.camera}
-                ref={ref}
-                facing="back"
-                autofocus="on"
-                flash="auto"
-            >
-                <View>
-                    <TouchableOpacity
-                        style={styles.closeBtn}
-                        onPress={() => router.replace("/")}
-                    >
-                        <Text style={styles.closeBtnText}>X</Text>
-                    </TouchableOpacity>
-                </View>
-                <View style={styles.headerContainer}>
-                    <Text style={styles.header}>Identify</Text>
-                </View>
-                <View style={styles.shutterContainer}>
-                    <Pressable onPress={takePicture}>
-                        {({ pressed }) => (
-                            <View
-                                style={[
-                                    styles.shutterBtn,
-                                    {
-                                        opacity: pressed ? 0.5 : 1,
-                                    },
-                                ]}
-                            >
-                            </View>
-                        )}
-                    </Pressable>
-                </View>
-            </CameraView>
-        );
-    };
 
     return (
         <View style={styles.container}>
-            {base64 ? pictureView() : cameraView()}
+            {
+                base64 ?
+                <PictureViewComponent sheetRef={sheetRef} garbage={garbage} base64={base64} setGarbage={setGarbage} setBase64={setBase64}/> :
+                <CameraViewComponent cameraViewRef={cameraViewRef} takePicture={takePicture} base64={base64}/>
+            }
         </View>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: "#fff",
+        flex: 1
     },
     permissionContainer: {
         flex: 1,
@@ -183,4 +289,53 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
     },
+    loadingContainer: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Optional: Add a semi-transparent background
+    },
+    contentContainer: {
+        backgroundColor: "white",
+    },
+    itemContainer: {
+        padding: 7,
+        paddingLeft: 15,
+        backgroundColor: "white",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    itemContainerHovered: {
+        backgroundColor: "#d3d3d3",
+    },
+    itemText: {
+        fontFamily: "Raleway_600SemiBold",
+        fontSize: 20
+    },
+    sheetHeaderText: {
+        left: 15,
+        fontFamily: "Raleway_800ExtraBold",
+        fontSize: 14,
+        color: "gray",
+        paddingBottom: 5
+    },
+    iconText: {
+        fontFamily: "Raleway_600SemiBold",
+        fontSize: 14,
+        color: "gray",
+        paddingHorizontal: 10
+    },
+    iconContainer: {
+        backgroundColor: "#d3d3d3",
+        borderRadius: 10,
+        marginRight: 10,
+        alignItems: "center",
+        justifyContent: "center",
+        paddingVertical: 3
+    }
 });
