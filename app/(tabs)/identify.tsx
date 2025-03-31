@@ -7,7 +7,7 @@ import { useRouter } from 'expo-router';
 export default function Identify() {
     const [permission, requestPermission] = useCameraPermissions();
     const ref = useRef<CameraView>(null);
-    const [uri, setUri] = useState<string | null>(null);
+    const [base64, setBase64] = useState<string | null>(null);
     const router = useRouter();
 
     if (!permission) {
@@ -17,28 +17,30 @@ export default function Identify() {
     if (!permission.granted) {
         // Camera permissions are not granted yet.
         return (
-            <View style={styles.container}>
-                <Text>We need your permission to show the camera</Text>
-                <Button onPress={requestPermission} title="grant permission" />
+            <View style={styles.permissionContainer}>
+                <Text style={styles.permissionText}>We need your permission to show the camera</Text>
+                <TouchableOpacity style={styles.permissionButton} onPress={requestPermission}>
+                    <Text style={styles.permissionButtonText}>Grant Permission</Text>
+                </TouchableOpacity>
             </View>
         );
     }
 
     const takePicture = async () => {
-        const picture = await ref.current?.takePictureAsync();
-        // @ts-ignore
-        setUri(picture?.uri);
+        const picture = await ref.current?.takePictureAsync({ base64: true });
+        if (picture?.base64) {
+            setBase64(`data:image/jpeg;base64,${picture.base64}`);
+        }
     }
 
     const pictureView = () => {
         return (
-            <View>
+            <View style={styles.container}>
                 <Image
-                    source={{ uri }}
+                    style={styles.image}
+                    source={{ uri: base64 }}
                     contentFit="contain"
-                    style={{ width: 300, aspectRatio: 1 }}
                 />
-                <Button onPress={() => setUri(null)} title="Take another picture" />
             </View>
         );
     };
@@ -49,6 +51,8 @@ export default function Identify() {
                 style={styles.camera}
                 ref={ref}
                 facing="back"
+                autofocus="on"
+                flash="auto"
             >
                 <View>
                     <TouchableOpacity
@@ -82,7 +86,7 @@ export default function Identify() {
 
     return (
         <View style={styles.container}>
-            {uri ? pictureView() : cameraView()}
+            {base64 ? pictureView() : cameraView()}
         </View>
     );
 }
@@ -91,6 +95,31 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff",
+    },
+    permissionContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: 20,
+        backgroundColor: "#f8f8f8",
+    },
+    permissionText: {
+        fontSize: 17,
+        textAlign: 'center',
+        marginBottom: 20,
+        color: "#333",
+        fontFamily: "Raleway_600SemiBold"
+    },
+    permissionButton: {
+        backgroundColor: "black",
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        borderRadius: 10,
+    },
+    permissionButtonText: {
+        color: "white",
+        fontSize: 16,
+        fontWeight: "bold",
     },
     headerContainer: {
         position: 'absolute',
@@ -148,5 +177,10 @@ const styles = StyleSheet.create({
         fontFamily: "Raleway_400Regular",
         fontSize: 25,
         top: -2
-    }
+    },
+    image: {
+        ...StyleSheet.absoluteFillObject,
+        width: '100%',
+        height: '100%',
+    },
 });
