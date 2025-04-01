@@ -6,7 +6,7 @@ import { useRouter } from 'expo-router';
 import { identifyGarbage, type GarbageResponseType, type GarbageIdentification } from "@/services/api";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet";
-import { CubeFocus } from "phosphor-react-native";
+import { CubeFocus, Trash, Recycle, Plant } from "phosphor-react-native";
 
 
 interface GarbageItemProps {
@@ -16,16 +16,41 @@ interface GarbageItemProps {
 const GarbageItem = ({ item }: GarbageItemProps) => {
     const [isHovered, setIsHovered] = useState(false);
 
+    let boxColor = "";
+    let textColor = "";
+    let icon = null;
+    switch (item.type) {
+        case "Trash":
+            boxColor = "#dddddd"
+            textColor = "#686868"
+            icon = <Trash size={15} color={textColor} style={styles.icon}/>
+            break;
+        case "Recycle":
+            boxColor = "#cef0ff"
+            textColor = "#577886"
+            icon = <Recycle size={15} color={textColor} style={styles.icon}/>
+            break;
+        case "Compost":
+            boxColor = "#d9f3cf";
+            textColor = "#607857";
+            icon = <Plant size={15} color={textColor} style={styles.icon}/>
+            break
+        default:
+            console.log("Invalid color entered")
+    }
+
     return (
         <Pressable
             onPressIn={() => setIsHovered(true)}
             onPressOut={() => setIsHovered(false)}
             style={[styles.itemContainer, isHovered && styles.itemContainerHovered]}
         >
+            <CubeFocus size={24}/>
             <Text style={styles.itemText}>{item.object}</Text>
             <View style={[{ flex: 1 }]} />
-            <View style={styles.iconContainer}>
-                <Text style={styles.iconText}>{item.type}</Text>
+            <View style={[styles.iconContainer, { backgroundColor: boxColor }]}>
+                {icon}
+                <Text style={[styles.iconText, { color: textColor }]}>{item.type}</Text>
             </View>
         </Pressable>
     );
@@ -97,11 +122,10 @@ const PictureViewComponent = ({ sheetRef, garbage, base64, setGarbage, setBase64
 interface CameraViewComponentProps {
     cameraViewRef: React.Ref<CameraView>;
     takePicture: () => Promise<void>;
-    base64: string | null;
 }
 
 
-const CameraViewComponent = ({ cameraViewRef, takePicture, base64 }: CameraViewComponentProps) => {
+const CameraViewComponent = ({ cameraViewRef, takePicture }: CameraViewComponentProps) => {
     const router = useRouter();
 
     return (
@@ -151,7 +175,16 @@ export default function Identify() {
     const cameraViewRef = useRef<CameraView>(null);
     const sheetRef = useRef<BottomSheet>(null);
 
-    /*
+    useEffect(() => {
+        const fetchGarbageData = async () => {
+            if (base64 && !garbage) {
+                const response = await identifyGarbage(base64!);
+                setGarbage(response);
+            }
+        };
+        fetchGarbageData();
+    }, [base64]);
+
     if (!permission) {
         return <View />;
     }
@@ -167,7 +200,7 @@ export default function Identify() {
             </View>
         );
     }
-    */
+
 
     const takePicture = async () => {
         const picture = await cameraViewRef.current?.takePictureAsync({ base64: true });
@@ -176,23 +209,13 @@ export default function Identify() {
         }
     }
 
-    useEffect(() => {
-        const fetchGarbageData = async () => {
-            if (base64 && !garbage) {
-                const response = await identifyGarbage(base64!);
-                setGarbage(response);
-            }
-        };
-        fetchGarbageData();
-    }, [base64]);
-
 
     return (
         <View style={styles.container}>
             {
                 base64 ?
                 <PictureViewComponent sheetRef={sheetRef} garbage={garbage} base64={base64} setGarbage={setGarbage} setBase64={setBase64}/> :
-                <CameraViewComponent cameraViewRef={cameraViewRef} takePicture={takePicture} base64={base64}/>
+                <CameraViewComponent cameraViewRef={cameraViewRef} takePicture={takePicture}/>
             }
         </View>
     );
@@ -308,14 +331,16 @@ const styles = StyleSheet.create({
         backgroundColor: "white",
         display: "flex",
         flexDirection: "row",
-        alignItems: "center",
+        alignItems: "center"
     },
     itemContainerHovered: {
         backgroundColor: "#d3d3d3",
     },
     itemText: {
+        marginLeft: 8,
         fontFamily: "Raleway_600SemiBold",
-        fontSize: 20
+        fontSize: 20,
+        marginTop: -4
     },
     sheetHeaderText: {
         left: 15,
@@ -325,17 +350,20 @@ const styles = StyleSheet.create({
         paddingBottom: 5
     },
     iconText: {
-        fontFamily: "Raleway_600SemiBold",
+        fontFamily: "Raleway_700Bold",
         fontSize: 14,
-        color: "gray",
-        paddingHorizontal: 10
+        paddingRight: 10,
     },
     iconContainer: {
-        backgroundColor: "#d3d3d3",
-        borderRadius: 10,
+        borderRadius: 15,
         marginRight: 10,
         alignItems: "center",
         justifyContent: "center",
-        paddingVertical: 3
+        paddingVertical: 3,
+        flexDirection: "row"
+    },
+    icon: {
+        marginLeft: 10,
+        marginRight: 5
     }
 });
