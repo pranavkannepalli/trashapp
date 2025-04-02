@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useMemo, useCallback } from 'react';
-import { Pressable, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator} from 'react-native';
+import { Pressable, StyleSheet, Text, TouchableOpacity, View, ActivityIndicator } from 'react-native';
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { Image } from "expo-image";
 import { useRouter } from 'expo-router';
@@ -7,6 +7,7 @@ import { identifyGarbage, type GarbageResponseType, type GarbageIdentification }
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import { CubeFocus, Trash, Recycle, Plant } from "phosphor-react-native";
+import { Item, useIdentified } from '../identifiedContext/identifiedContext';
 
 
 interface GarbageItemProps {
@@ -23,17 +24,17 @@ const GarbageItem = ({ item }: GarbageItemProps) => {
         case "Trash":
             boxColor = "#dddddd"
             textColor = "#686868"
-            icon = <Trash size={15} color={textColor} style={styles.icon}/>
+            icon = <Trash size={15} color={textColor} style={styles.icon} />
             break;
         case "Recycle":
             boxColor = "#cef0ff"
             textColor = "#577886"
-            icon = <Recycle size={15} color={textColor} style={styles.icon}/>
+            icon = <Recycle size={15} color={textColor} style={styles.icon} />
             break;
         case "Compost":
             boxColor = "#d9f3cf";
             textColor = "#607857";
-            icon = <Plant size={15} color={textColor} style={styles.icon}/>
+            icon = <Plant size={15} color={textColor} style={styles.icon} />
             break
         default:
             console.log("Invalid color entered")
@@ -45,7 +46,7 @@ const GarbageItem = ({ item }: GarbageItemProps) => {
             onPressOut={() => setIsHovered(false)}
             style={[styles.itemContainer, isHovered && styles.itemContainerHovered]}
         >
-            <CubeFocus size={24}/>
+            <CubeFocus size={24} />
             <Text style={styles.itemText}>{item.object}</Text>
             <View style={[{ flex: 1 }]} />
             <View style={[styles.iconContainer, { backgroundColor: boxColor }]}>
@@ -168,6 +169,7 @@ const CameraViewComponent = ({ cameraViewRef, takePicture }: CameraViewComponent
 
 
 export default function Identify() {
+    const { addItems } = useIdentified();
     const [permission, requestPermission] = useCameraPermissions();
     const [base64, setBase64] = useState<string | null>(null);
     const [garbage, setGarbage] = useState<GarbageResponseType>(null);
@@ -180,6 +182,7 @@ export default function Identify() {
             if (base64 && !garbage) {
                 const response = await identifyGarbage(base64!);
                 setGarbage(response);
+                if (response) addItems(response.data as Item[]);
             }
         };
         fetchGarbageData();
@@ -214,8 +217,8 @@ export default function Identify() {
         <View style={styles.container}>
             {
                 base64 ?
-                <PictureViewComponent sheetRef={sheetRef} garbage={garbage} base64={base64} setGarbage={setGarbage} setBase64={setBase64}/> :
-                <CameraViewComponent cameraViewRef={cameraViewRef} takePicture={takePicture}/>
+                    <PictureViewComponent sheetRef={sheetRef} garbage={garbage} base64={base64} setGarbage={setGarbage} setBase64={setBase64} /> :
+                    <CameraViewComponent cameraViewRef={cameraViewRef} takePicture={takePicture} />
             }
         </View>
     );
