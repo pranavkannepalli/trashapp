@@ -8,6 +8,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet";
 import { CubeFocus, Trash, Recycle, Plant } from "phosphor-react-native";
 import { Item, useIdentified } from '../identifiedContext/identifiedContext';
+import React from "react";
 
 
 interface GarbageItemProps {

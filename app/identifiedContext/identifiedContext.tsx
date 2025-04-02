@@ -1,4 +1,4 @@
-import { createContext, useContext, ReactNode, useState } from "react";
+import React, { createContext, useContext, ReactNode, useState } from "react";
 import { GarbageIdentification } from "@/services/api";
 
 export type Item = GarbageIdentification;
@@ -13,7 +13,9 @@ type IdentifiedContextType = {
 export const IdentifiedContext = createContext<IdentifiedContextType | undefined>(undefined);
 
 export function IdentifiedProvider({ children }: { children: ReactNode }) {
-	const [items, setItems] = useState<Item[]>([]);
+	const [items, setItems] = useState<Item[]>([
+		{index: "0", type: "Trash", object: "Paper Towel"}
+	]);
 
 	const addItems = (item: Item[]) => {
 		setItems((prev) => [...prev, ...item]);
