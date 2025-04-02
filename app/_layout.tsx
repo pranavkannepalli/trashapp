@@ -3,6 +3,7 @@ import { useFonts } from "expo-font";
 import * as RalewayFonts from "@expo-google-fonts/raleway";
 import * as OutfitFonts from "@expo-google-fonts/outfit";
 import { useEffect } from "react";
+import { IdentifiedProvider } from "./identifiedContext/identifiedContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -22,8 +23,7 @@ export default function RootLayout() {
   if (!loaded && !error) {
     return null;
   }
-
-  return <Stack>
+  return <IdentifiedProvider><Stack>
     <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-  </Stack>;
+  </Stack></IdentifiedProvider>;
 }
