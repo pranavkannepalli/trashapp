@@ -1,22 +1,33 @@
-import {StyleSheet, Text, View} from "react-native";
+import {Animated, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import data from "@/assets/data.json";
 import GarbageIcon from "@/components/ui/GarbageIcon";
 import {Leaf, Recycle} from "phosphor-react-native";
 import {useState} from "react";
+import ScrollView = Animated.ScrollView;
 
 interface GarbageItemInstructions {
     title: string;
     description: string;
 }
 
-interface GarbageItemProps {
-    name: string;
+interface GarbageDataItem {
     instructions: GarbageItemInstructions[];
     weight: string;
-    type: "Trash" | "Recycle" | "Compost";
+    type: string;
     co2_savings: string,
+}
+
+interface GarbageData {
+    [key: string]: GarbageDataItem;
+}
+
+interface GarbageItemProps extends GarbageDataItem {
+    name: string;
     setCurrentItem: (item: string | null) => void;
 }
+
+
+const typedData: GarbageData = data;
 
 
 const GarbageItem = (
@@ -30,8 +41,10 @@ const GarbageItem = (
                         onPress={() => setCurrentItem(null)}
                     >{"<"}</Text>
                     <Text style={styles.header}>{name}</Text>
-                    <View style={[{ width: "34%" }]}/>
-                    <GarbageIcon type={type}/>
+                    <View style={[{ paddingTop: 8, paddingLeft: 10 }]}>
+                        <GarbageIcon type={type}/>
+                    </View>
+
                 </View>
                 <View style={[{ flexDirection: "row" }]}>
                     <View style={styles.greenBg}>
@@ -83,19 +96,43 @@ const GarbageItem = (
 
 export default function Library() {
     const [item, setItem] = useState<string | null>(null);
-
-    if (item) {
-        const itemData = data[item];
+``
+    if (item != null) {
+        const itemData: GarbageDataItem = typedData[item];
         return (
             <View style={styles.mainContainer}>
                 <View>
-                    <GarbageItem name={itemData.name} instructions={instructions} weight="5" type="Trash" co2_savings="0" setCurrentItem={setItem}/>
+                    <GarbageItem
+                        name={item}
+                        instructions={itemData.instructions}
+                        weight={itemData.weight}
+                        type={itemData.type}
+                        co2_savings={itemData.co2_savings}
+                        setCurrentItem={setItem}/>
                 </View>
             </View>
         )
     }
+
+    const keys = Object.keys(typedData);
     return (
-        <View></View>
+        <ScrollView style={[styles.mainContainer, { flexDirection: "column" }]}>
+            <Text style={styles.header}>Item Library</Text>
+            <View>
+                {keys.map((_, index) => index % 2 === 0 && (
+                    <View style={[{ flexDirection: "row" }]}>
+                        <TouchableOpacity key={index} activeOpacity={0.7} style={[styles.instructionContainer, { width: "45%", marginRight: 15 }]}
+                        onPress={() => setItem(keys[index])}>
+                                <Text>{keys[index]}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity key={index+1} activeOpacity={0.7} style={[styles.instructionContainer, { width: "45%" }]}
+                        onPress={() => setItem(keys[index+1])}>
+                                <Text>{keys[index+1]}</Text>
+                        </TouchableOpacity>
+                    </View>
+                ))}
+            </View>
+        </ScrollView>
     );
 }
 
@@ -104,12 +141,14 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: "column",
         paddingLeft: 24,
-        paddingRight: 24
+        paddingRight: 24,
+        paddingVertical: 10
     },
     headerContainer: {
         flexDirection: "row",
         width: "70%",
-        paddingVertical: 15
+        paddingVertical: 15,
+        alignItems: "center"
     },
     header: {
         fontFamily: "Outfit_700Bold",

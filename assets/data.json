@@ -10,9 +10,9 @@
                 "description": "If not recyclable, dispose of in the trash."
             }
         ],
-        "weight": "10g",
-        "type": "trash",
-        "co2_savings": "0g CO2"
+        "weight": "10",
+        "type": "Trash",
+        "co2_savings": "~0"
     },
     "Tea Bag": {
         "instructions": [
@@ -25,9 +25,9 @@
                 "description": "If it contains plastic, dispose of in trash."
             }
         ],
-        "weight": "5g",
-        "type": "compost",
-        "co2_savings": "15g CO2"
+        "weight": "5",
+        "type": "Compost",
+        "co2_savings": "15"
     },
     "Pizza Box": {
         "instructions": [
@@ -40,9 +40,9 @@
                 "description": "Recyclable if no grease or food residue is present."
             }
         ],
-        "weight": "150g",
-        "type": "recycle",
-        "co2_savings": "80g CO2"
+        "weight": "150",
+        "type": "Recycle",
+        "co2_savings": "80"
     },
     "Bamboo Toothbrush": {
         "instructions": [
@@ -55,9 +55,9 @@
                 "description": "The bamboo handle can be composted."
             }
         ],
-        "weight": "20g",
-        "type": "compost",
-        "co2_savings": "50g CO2"
+        "weight": "20",
+        "type": "Compost",
+        "co2_savings": "50"
     },
     "Metal Can": {
         "instructions": [
@@ -70,9 +70,9 @@
                 "description": "Place in the recycling bin."
             }
         ],
-        "weight": "200g",
-        "type": "recycle",
-        "co2_savings": "400g CO2"
+        "weight": "200",
+        "type": "Recycle",
+        "co2_savings": "400"
     },
     "Styrofoam Container": {
         "instructions": [
@@ -85,11 +85,11 @@
                 "description": "If not recyclable, dispose of in the trash."
             }
         ],
-        "weight": "20g",
-        "type": "trash",
-        "co2_savings": "0g CO2"
+        "weight": "20",
+        "type": "Trash",
+        "co2_savings": "~0"
     },
-    "Plastic Water Bottle": {
+    "Plastic Bottle": {
         "instructions": [
             {
                 "title": "Empty the Bottle",
@@ -104,9 +104,9 @@
                 "description": "Place the bottle in the recycling bin."
             }
         ],
-        "weight": "20g",
-        "type": "recycle",
-        "co2_savings": "100g CO2"
+        "weight": "20",
+        "type": "Recycle",
+        "co2_savings": "100"
     },
     "Glass Bottle": {
         "instructions": [
@@ -119,9 +119,9 @@
                 "description": "Place it in the glass recycling bin."
             }
         ],
-        "weight": "350g",
-        "type": "recycle",
-        "co2_savings": "300g CO2"
+        "weight": "350",
+        "type": "Recycle",
+        "co2_savings": "300"
     },
     "Aluminum Can": {
         "instructions": [
@@ -134,11 +134,11 @@
                 "description": "Place the can in the recycling bin."
             }
         ],
-        "weight": "15g",
-        "type": "recycle",
-        "co2_savings": "150g CO2"
+        "weight": "15",
+        "type": "Recycle",
+        "co2_savings": "150"
     },
-    "Paper Coffee Cup": {
+    "Paper Cup": {
         "instructions": [
             {
                 "title": "Check for Lining",
@@ -149,11 +149,11 @@
                 "description": "If not recyclable, dispose of in the trash."
             }
         ],
-        "weight": "12g",
-        "type": "trash",
-        "co2_savings": "0g CO2"
+        "weight": "12",
+        "type": "Trash",
+        "co2_savings": "~0"
     },
-    "Plastic Shopping Bag": {
+    "Plastic Bag": {
         "instructions": [
             {
                 "title": "Return to Store",
@@ -164,9 +164,9 @@
                 "description": "If not recyclable, dispose of in the trash."
             }
         ],
-        "weight": "10g",
-        "type": "trash",
-        "co2_savings": "0g CO2"
+        "weight": "10",
+        "type": "Trash",
+        "co2_savings": "~0"
     },
     "Eggshells": {
         "instructions": [
@@ -175,9 +175,9 @@
                 "description": "Add eggshells to your compost for calcium enrichment."
             }
         ],
-        "weight": "10g",
-        "type": "compost",
-        "co2_savings": "5g CO2"
+        "weight": "10",
+        "type": "Compost",
+        "co2_savings": "5"
     },
     "Cotton T-Shirt": {
         "instructions": [
@@ -190,9 +190,9 @@
                 "description": "Check for local textile recycling programs."
             }
         ],
-        "weight": "200g",
-        "type": "recycle",
-        "co2_savings": "700g CO2"
+        "weight": "200",
+        "type": "Recycle",
+        "co2_savings": "700"
     },
     "Car Tire": {
         "instructions": [
@@ -205,9 +205,9 @@
                 "description": "Specialized facilities handle used tires properly."
             }
         ],
-        "weight": "7kg",
-        "type": "recycle",
-        "co2_savings": "3000g CO2"
+        "weight": "7k",
+        "type": "Recycle",
+        "co2_savings": "3000"
     },
     "Wooden Chopsticks": {
         "instructions": [
@@ -216,9 +216,9 @@
                 "description": "Unpainted wooden chopsticks can go in compost."
             }
         ],
-        "weight": "10g",
-        "type": "compost",
-        "co2_savings": "40g CO2"
+        "weight": "10",
+        "type": "Compost",
+        "co2_savings": "40"
     },
     "CD/DVD Disc": {
         "instructions": [
@@ -231,9 +231,9 @@
                 "description": "Give away working discs to secondhand stores."
             }
         ],
-        "weight": "15g",
-        "type": "recycle",
-        "co2_savings": "100g CO2"
+        "weight": "15",
+        "type": "Recycle",
+        "co2_savings": "100"
     },
     "Milk Carton": {
         "instructions": [
@@ -246,9 +246,9 @@
                 "description": "Check if your local recycling program accepts cartons."
             }
         ],
-        "weight": "30g",
-        "type": "recycle",
-        "co2_savings": "150g CO2"
+        "weight": "30",
+        "type": "Recycle",
+        "co2_savings": "150"
     },
     "Toothpaste Tube": {
         "instructions": [
@@ -261,11 +261,11 @@
                 "description": "If no recycling option, dispose in trash."
             }
         ],
-        "weight": "20g",
-        "type": "trash",
-        "co2_savings": "0g CO2"
+        "weight": "20",
+        "type": "Trash",
+        "co2_savings": "~0"
     },
-    "Used Cooking Oil": {
+    "Cooking Oil": {
         "instructions": [
             {
                 "title": "Store and Drop Off",
@@ -276,11 +276,11 @@
                 "description": "Oil can clog pipes and harm the environment."
             }
         ],
-        "weight": "1kg",
-        "type": "trash",
-        "co2_savings": "0g CO2"
+        "weight": "1k",
+        "type": "Trash",
+        "co2_savings": "~0"
     },
-    "Cork Wine Stopper": {
+    "Wine Stopper": {
         "instructions": [
             {
                 "title": "Compost It",
@@ -291,9 +291,9 @@
                 "description": "Some companies accept cork for recycling."
             }
         ],
-        "weight": "5g",
-        "type": "compost",
-        "co2_savings": "25g CO2"
+        "weight": "5",
+        "type": "Compost",
+        "co2_savings": "25"
     },
     "Disposable Razor": {
         "instructions": [
@@ -306,9 +306,9 @@
                 "description": "If no recycling option, place in trash."
             }
         ],
-        "weight": "50g",
-        "type": "trash",
-        "co2_savings": "0g CO2"
+        "weight": "50",
+        "type": "Trash",
+        "co2_savings": "~0"
     },
     "Battery": {
         "instructions": [
@@ -321,9 +321,9 @@
                 "description": "Batteries contain hazardous materials."
             }
         ],
-        "weight": "200g",
-        "type": "recycle",
-        "co2_savings": "400g CO2"
+        "weight": "200",
+        "type": "Recycle",
+        "co2_savings": "400"
     },
     "Laptop Battery": {
         "instructions": [
@@ -336,9 +336,9 @@
                 "description": "Batteries can leak harmful chemicals into the environment."
             }
         ],
-        "weight": "300g",
-        "type": "recycle",
-        "co2_savings": "900g CO2"
+        "weight": "300",
+        "type": "Recycle",
+        "co2_savings": "900"
     },
     "Plastic Straw": {
         "instructions": [
@@ -351,9 +351,9 @@
                 "description": "If not recyclable, dispose of in the trash."
             }
         ],
-        "weight": "2g",
-        "type": "trash",
-        "co2_savings": "0g CO2"
+        "weight": "2",
+        "type": "Trash",
+        "co2_savings": "~0"
     },
     "Steel Fork": {
         "instructions": [
@@ -366,9 +366,9 @@
                 "description": "Make sure it's clean before recycling."
             }
         ],
-        "weight": "30g",
-        "type": "recycle",
-        "co2_savings": "100g CO2"
+        "weight": "30",
+        "type": "Recycle",
+        "co2_savings": "100"
     },
     "Cardboard Box": {
         "instructions": [
@@ -381,9 +381,9 @@
                 "description": "Place in a designated paper recycling bin."
             }
         ],
-        "weight": "500g",
-        "type": "recycle",
-        "co2_savings": "800g CO2"
+        "weight": "500",
+        "type": "Recycle",
+        "co2_savings": "800"
     },
     "Banana Peel": {
         "instructions": [
@@ -392,11 +392,11 @@
                 "description": "Banana peels break down well in compost."
             }
         ],
-        "weight": "150g",
-        "type": "compost",
-        "co2_savings": "120g CO2"
+        "weight": "150",
+        "type": "Compost",
+        "co2_savings": "120"
     },
-    "LED Light Bulb": {
+    "LED Bulb": {
         "instructions": [
             {
                 "title": "Find a Recycling Program",
@@ -407,9 +407,9 @@
                 "description": "Some bulbs contain hazardous materials."
             }
         ],
-        "weight": "60g",
-        "type": "recycle",
-        "co2_savings": "300g CO2"
+        "weight": "60",
+        "type": "Recycle",
+        "co2_savings": "300"
     },
     "Cereal Box": {
         "instructions": [
@@ -418,9 +418,9 @@
                 "description": "Make sure the box is empty and flatten it before recycling."
             }
         ],
-        "weight": "50g",
-        "type": "recycle",
-        "co2_savings": "20g CO2"
+        "weight": "50",
+        "type": "Recycle",
+        "co2_savings": "20"
     },
     "Coffee Grounds": {
         "instructions": [
@@ -429,24 +429,9 @@
                 "description": "Used coffee grounds enrich soil when composted."
             }
         ],
-        "weight": "250g",
-        "type": "compost",
-        "co2_savings": "200g CO2"
-    },
-    "Nail Polish Bottle": {
-        "instructions": [
-            {
-                "title": "Dispose as Hazardous Waste",
-                "description": "Many nail polishes contain chemicals requiring special disposal."
-            },
-            {
-                "title": "Check Local Guidelines",
-                "description": "Some areas have collection sites for hazardous beauty products."
-            }
-        ],
-        "weight": "50g",
-        "type": "trash",
-        "co2_savings": "0g CO2"
+        "weight": "250",
+        "type": "Compost",
+        "co2_savings": "200"
     },
     "Bubble Wrap": {
         "instructions": [
@@ -459,9 +444,9 @@
                 "description": "Consider reusing it for shipping or storage."
             }
         ],
-        "weight": "50g",
-        "type": "trash",
-        "co2_savings": "0g CO2"
+        "weight": "50",
+        "type": "Trash",
+        "co2_savings": "~0"
     },
     "Broken Umbrella": {
         "instructions": [
@@ -474,11 +459,11 @@
                 "description": "If not repairable, discard in the trash."
             }
         ],
-        "weight": "300g",
-        "type": "trash",
-        "co2_savings": "0g CO2"
+        "weight": "300",
+        "type": "Trash",
+        "co2_savings": "~0"
     },
-    "Plastic Coffee Cup Lid": {
+    "Cup Lid": {
         "instructions": [
             {
                 "title": "Recycle If Accepted",
@@ -489,9 +474,9 @@
                 "description": "If not recyclable, dispose of in the trash."
             }
         ],
-        "weight": "5g",
-        "type": "trash",
-        "co2_savings": "0g CO2"
+        "weight": "5",
+        "type": "Trash",
+        "co2_savings": "~0"
     },
     "Paper Towel": {
         "instructions": [
@@ -504,11 +489,11 @@
                 "description": "If contaminated with food or chemicals, throw it away."
             }
         ],
-        "weight": "5g",
-        "type": "compost",
-        "co2_savings": "10g CO2"
+        "weight": "5",
+        "type": "Compost",
+        "co2_savings": "10"
     },
-    "Plastic Food Container": {
+    "Plastic Container": {
         "instructions": [
             {
                 "title": "Wash Before Recycling",
@@ -519,41 +504,19 @@
                 "description": "If not recyclable, dispose of in the trash."
             }
         ],
-        "weight": "30g",
-        "type": "recycle",
-        "co2_savings": "50g CO2"
+        "weight": "30",
+        "type": "Recycle",
+        "co2_savings": "50"
     },
-    "Food Waste (Vegetable Scraps)": {
+    "Vegetable Scraps": {
         "instructions": [
             {
                 "title": "Compost It",
                 "description": "Add vegetable scraps to your compost bin."
             }
         ],
-        "weight": "200g",
-        "type": "compost",
-        "co2_savings": "100g CO2"
-    },
-    "Used Coffee Grounds": {
-        "instructions": [
-            {
-                "title": "Compost It",
-                "description": "Add used coffee grounds to your compost bin."
-            }
-        ],
-        "weight": "50g",
-        "type": "compost",
-        "co2_savings": "30g CO2"
-    },
-    "Tissue Paper": {
-        "instructions": [
-            {
-                "title": "Trash It",
-                "description": "Used tissues should be disposed of in the trash."
-            }
-        ],
-        "weight": "5g",
-        "type": "trash",
-        "co2_savings": "0g CO2"
+        "weight": "200",
+        "type": "Compost",
+        "co2_savings": "100"
     }
 }

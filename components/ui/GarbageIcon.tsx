@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { Plant, Recycle, Trash } from "phosphor-react-native";
 
 
-export default function GarbageIcon( { type }: { type: "Trash" | "Recycle" | "Compost" } ) {
+export default function GarbageIcon( { type }: { type: string } ) {
     let boxColor = "";
     let textColor = "";
     let icon = null;
