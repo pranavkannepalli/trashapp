@@ -21,6 +21,10 @@ export default function TabLayout() {
                 name="map"
                 options={{ title: "Map", tabBarIcon: ({ color }) => <MapPin size={28} color={color} weight="fill" /> }}
             />
+            <Tabs.Screen
+                name="library"
+                options={{ title: "Library", tabBarIcon: ({ color }) => <IconSymbol size={28} name="book.fill" color={color} /> }}
+            />
         </Tabs>
     )
 }

@@ -37,7 +37,7 @@ export default function Home() {
                 <View style={styles.statCard}>
                     <Text style={styles.statValue}>{userData.co2Saved} lbs</Text>
                     <Text style={styles.statLabel}>CO₂ equivalent saved</Text>
-                </View>weight
+                </View>
                 <View style={styles.statCard}>
                     <Text style={styles.statValue}>{userData.itemsDiverted} items</Text>
                     <Text style={styles.statLabel}>Diverted from landfills</Text>

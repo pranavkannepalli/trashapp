@@ -6,7 +6,7 @@ import { useRouter } from 'expo-router';
 import { identifyGarbage, type GarbageResponseType, type GarbageIdentification } from "@/services/api";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet";
-import { CubeFocus } from "phosphor-react-native";
+import { CubeFocus, Plant, Trash, Recycle } from "phosphor-react-native";
 import { Item, useIdentified } from '../identifiedContext/identifiedContext';
 import React from "react";
 
@@ -16,6 +16,29 @@ export const GarbageItem = ({ item, showCube = true, size = "md" }: {
     size?: "sm" | "md"
 }) => {
     const [isHovered, setIsHovered] = useState(false);
+
+    let boxColor = "";
+    let textColor = "";
+    let icon = null;
+    switch (item.type) {
+        case "Trash":
+            boxColor = "#dddddd"
+            textColor = "#686868"
+            icon = <Trash size={15} color={textColor} style={styles.icon}/>
+            break;
+        case "Recycle":
+            boxColor = "#cef0ff"
+            textColor = "#577886"
+            icon = <Recycle size={15} color={textColor} style={styles.icon}/>
+            break;
+        case "Compost":
+            boxColor = "#d9f3cf";
+            textColor = "#607857";
+            icon = <Plant size={15} color={textColor} style={styles.icon}/>
+            break
+        default:
+            console.log("Invalid color entered")
+    }
 
     return (
         <Pressable
@@ -47,7 +70,7 @@ interface PictureViewComponentProps {
 
 const PictureViewComponent = ({ sheetRef, garbage, base64, setGarbage, setBase64 }: PictureViewComponentProps) => {
     const router = useRouter();
-    const snapPoints = useMemo(() => ["25%", "50%", "90%"], []);
+    const snapPoints = useMemo(() => ["35%", "50%", "90%"], []);
 
     const renderItem = ({ item }: { item: GarbageIdentification }) => <GarbageItem item={item} />;
 
@@ -81,6 +104,7 @@ const PictureViewComponent = ({ sheetRef, garbage, base64, setGarbage, setBase64
                         ref={sheetRef}
                         snapPoints={snapPoints}
                         enableDynamicSizing={false}
+                        animateOnMount={true}
                     >
                         <Text style={styles.sheetHeaderText}>Recognized Items</Text>
                         <BottomSheetFlatList
