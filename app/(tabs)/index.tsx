@@ -9,7 +9,7 @@ const userData = {
     name: "Achintya",
     co2Saved: 56,
     itemsDiverted: 64,
-    rank: 2334,
+    rank: 23,
     totalMembers: 5300,
     leaderboard: [
         { name: "Sarthak Lodha", weight: 68 },
