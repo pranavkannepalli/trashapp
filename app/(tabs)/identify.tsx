@@ -6,7 +6,7 @@ import { useRouter } from 'expo-router';
 import { identifyGarbage, type GarbageResponseType, type GarbageIdentification } from "@/services/api";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import BottomSheet, { BottomSheetFlatList } from "@gorhom/bottom-sheet";
-import { CubeFocus, Trash, Recycle, Plant } from "phosphor-react-native";
+import { CubeFocus } from "phosphor-react-native";
 import { Item, useIdentified } from '../identifiedContext/identifiedContext';
 import React from "react";
 
@@ -16,29 +16,6 @@ export const GarbageItem = ({ item, showCube = true, size = "md" }: {
     size?: "sm" | "md"
 }) => {
     const [isHovered, setIsHovered] = useState(false);
-
-    let boxColor = "";
-    let textColor = "";
-    let icon = null;
-    switch (item.type) {
-        case "Trash":
-            boxColor = "#dddddd"
-            textColor = "#686868"
-            icon = <Trash size={15} color={textColor} style={styles.icon} />
-            break;
-        case "Recycle":
-            boxColor = "#cef0ff"
-            textColor = "#577886"
-            icon = <Recycle size={15} color={textColor} style={styles.icon} />
-            break;
-        case "Compost":
-            boxColor = "#d9f3cf";
-            textColor = "#607857";
-            icon = <Plant size={15} color={textColor} style={styles.icon} />
-            break
-        default:
-            console.log("Invalid color entered")
-    }
 
     return (
         <Pressable
