@@ -17,8 +17,8 @@ export default function TabLayout() {
                 options={{ title: "Identify", tabBarIcon: ({ color }) => <IconSymbol size={28} name="camera.fill" color={color} /> }}
             />
             <Tabs.Screen
-                name="map"
-                options={{ title: "Map", tabBarIcon: ({ color}) => <IconSymbol size={28} name="map" color={color} />}}
+                name="locations"
+                options={{ title: "Locations", tabBarIcon: ({ color}) => <IconSymbol size={28} name="pin.fill" color={color} />}}
             />
         </Tabs>
     )
