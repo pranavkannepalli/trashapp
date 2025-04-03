@@ -14,7 +14,8 @@ export const IdentifiedContext = createContext<IdentifiedContextType | undefined
 
 export function IdentifiedProvider({ children }: { children: ReactNode }) {
 	const [items, setItems] = useState<Item[]>([
-		{index: "0", type: "Trash", object: "Paper Towel"}
+		{ index: "0", type: "Trash", object: "Paper Towel" },
+		{ index: "0", type: "Recycle", object: "Water Bottle" },
 	]);
 
 	const addItems = (item: Item[]) => {

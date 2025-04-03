@@ -10,12 +10,11 @@ import { CubeFocus, Trash, Recycle, Plant } from "phosphor-react-native";
 import { Item, useIdentified } from '../identifiedContext/identifiedContext';
 import React from "react";
 
-
-interface GarbageItemProps {
+export const GarbageItem = ({ item, showCube = true, size = "md" }: {
     item: GarbageIdentification;
-}
-
-const GarbageItem = ({ item }: GarbageItemProps) => {
+    showCube?: boolean;
+    size?: "sm" | "md"
+}) => {
     const [isHovered, setIsHovered] = useState(false);
 
     let boxColor = "";
@@ -45,14 +44,14 @@ const GarbageItem = ({ item }: GarbageItemProps) => {
         <Pressable
             onPressIn={() => setIsHovered(true)}
             onPressOut={() => setIsHovered(false)}
-            style={[styles.itemContainer, isHovered && styles.itemContainerHovered]}
+            style={[size == "md" ? styles.itemContainer : styles.itemContainerSmall, isHovered && styles.itemContainerHovered]}
         >
-            <CubeFocus size={24} />
-            <Text style={styles.itemText}>{item.object}</Text>
+            {showCube && < CubeFocus size={24} />}
+            <Text style={size == "md" ? styles.itemText : styles.itemTextSmall}>{item.object}</Text>
             <View style={[{ flex: 1 }]} />
             <View style={[styles.iconContainer, { backgroundColor: boxColor }]}>
                 {icon}
-                <Text style={[styles.iconText, { color: textColor }]}>{item.type}</Text>
+                <Text style={[size == "md" ? styles.iconText : styles.iconTextSmall, { color: textColor }]}>{item.type}</Text>
             </View>
         </Pressable>
     );
@@ -337,6 +336,15 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center"
     },
+    itemContainerSmall: {
+        marginBottom: 5,
+        padding: 0,
+        paddingLeft: 0,
+        backgroundColor: "white",
+        display: "flex",
+        flexDirection: "row",
+        alignItems: "center"
+    },
     itemContainerHovered: {
         backgroundColor: "#d3d3d3",
     },
@@ -345,6 +353,11 @@ const styles = StyleSheet.create({
         fontFamily: "Raleway_600SemiBold",
         fontSize: 20,
         marginTop: -4
+    },
+    itemTextSmall: {
+        marginLeft: 0,
+        fontFamily: "Raleway_600SemiBold",
+        fontSize: 14,
     },
     sheetHeaderText: {
         left: 15,
@@ -357,6 +370,11 @@ const styles = StyleSheet.create({
         fontFamily: "Raleway_700Bold",
         fontSize: 14,
         paddingRight: 10,
+    },
+    iconTextSmall: {
+        fontFamily: "Raleway_700Bold",
+        fontSize: 12,
+        paddingRight: 8,
     },
     iconContainer: {
         borderRadius: 15,
