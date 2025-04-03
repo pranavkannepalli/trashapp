@@ -121,7 +121,7 @@ export default function Library() {
             <Text style={styles.header}>Item Library</Text>
             <View>
                 {keys.map((_, index) => index % 2 === 0 && (
-                    <View style={[{ flexDirection: "row" }]}>
+                    <View style={[{ flexDirection: "row" }]} key={index}>
                         <TouchableOpacity key={index} activeOpacity={0.7} style={[styles.instructionContainer, { width: "45%", marginRight: 15 }]}
                         onPress={() => setItem(keys[index])}>
                                 <Text>{keys[index]}</Text>
