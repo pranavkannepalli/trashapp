@@ -4,6 +4,7 @@ import GarbageIcon from "@/components/ui/GarbageIcon";
 import {Leaf, Recycle} from "phosphor-react-native";
 import {useState} from "react";
 import ScrollView = Animated.ScrollView;
+import React from "react";
 
 interface GarbageItemInstructions {
     title: string;
